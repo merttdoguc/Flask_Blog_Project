@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<h3>Konu Oluştur</h3>
+<hr>
+
+{% from "includes/formhelpers.html" import render_field %}
+
+<form method="post">
+    {{ render_field(form.title, class="form-control") }}
+
+    <!-- CKEditor burada class ile bağlanacak -->
+    {{ render_field(form.content, class="form-control ckeditor") }}
+
+    <button type="submit" class="btn btn-danger mt-3">Konu Ekle</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+{% if article %}
+
+<h4>{{ article.title }}</h4>
+<hr>
+Yazar: {{ article.author }}
+<hr>
+Tarih: {{ article.created_date }}
+<hr>
+{{ article.content | safe }}
+
+<hr>
+<h5>Yorumlar</h5>
+
+{% if comments %}
+    <ul class="list-group mb-4">
+        {% for comment in comments %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ comment.author }}</strong>: {{ comment.content }}<br>
+                <small class="text-muted">{{ comment.created_date }}</small>
+            </div>
+            {% if session.logged_in and comment.author == session.username %}
+            <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="POST" style="margin:0;">
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yorumu silmek istediğinizden emin misiniz?');">Sil</button>
+            </form>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <div class="alert alert-info">Henüz yorum yapılmamış.</div>
+{% endif %}
+
+{% if session.logged_in %}
+<form method="POST">
+    <div class="mb-3">
+        <label for="comment_content" class="form-label">Yorumunuzu yazın:</label>
+        <textarea name="comment" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Yorum Yap</button>
+</form>
+{% else %}
+<p>Yorum yapmak için <a href="{{ url_for('login') }}">giriş yap</a>.</p>
+{% endif %}
+
+{% else %}
+
+<div class="alert alert-warning">
+    Böyle bir konu bulunmuyor
+</div>
+
+{% endif %}
+
+{% endblock %}

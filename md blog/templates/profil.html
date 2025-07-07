@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<h3>{{ user.username }} Profili</h3>
+<p>Adı: {{ user.name }}</p>
+<p>E-posta: {{ user.email }}</p>
+<hr>
+<h5>Yazdığı Konular:</h5>
+{% if articles %}
+<ul>
+    {% for article in articles %}
+        <li><a href="/article/{{ article.id }}">{{ article.title }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Henüz konu yazmamış.</p>
+{% endif %}
+
+{% endblock %}
